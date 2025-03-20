@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://1253.site/">
+    <meta property="og:title" content="The hub for everything #1253">
+    <meta property="og:description" content="Info about resource boxes.">
+    <meta property="og:image" content="https://1253.site/assets/icon.jpg">
+
+    <title>Resource Boxes</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/boxes.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo"></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="buildings.html">Buildings</a></li>
+                <li><a href="heroes.html">Heroes</a></li>
+                <li><a href="drone.html">Drone</a></li>
+                <li><a href="boxes.html" class="active">RSS Boxes</a></li>
+                <li><a href="guides.html">Guides</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>Resource Boxes Calculator</h1>
+            <p>Calculate resource values for different box types and levels</p>
+        </header>
+
+        <div class="calculator" id="calculator-section">
+            <div class="input-section">
+                <h2>Box Selection</h2>
+                <div class="selection-row">
+                    <label for="box-level">HQ Level:</label>
+                    <select id="box-level" class="wide-select">
+                        <option value="">Select Level</option>
+                    </select>
+                </div>
+                <div class="selection-row">
+                    <label for="box-rarity">Box Rarity:</label>
+                    <select id="box-rarity" class="wide-select">
+                        <option value="">Select Rarity</option>
+                        <option value="Common">Common</option>
+                        <option value="Rare">Rare</option>
+                        <option value="Epic">Epic</option>
+                        <option value="Legendary">Legendary</option>
+                    </select>
+                </div>
+                
+                <button class="calculate" id="calculate-btn">Calculate Box Worth</button>
+                
+                <div class="input-section box-cart-container">
+                    <h2>Multiple Box Calculator</h2>
+                    <div id="box-cart">
+                        <div class="box-cart-row">
+                            <select class="box-level-select wide-select">
+                                <option value="">Select Level</option>
+                            </select>
+                            <select class="box-rarity-select">
+                                <option value="">Rarity</option>
+                                <option value="Common">Common</option>
+                                <option value="Rare">Rare</option>
+                                <option value="Epic">Epic</option>
+                                <option value="Legendary">Legendary</option>
+                            </select>
+                            <input type="number" class="box-quantity" min="1" value="1">
+                            <button class="remove" disabled>✕</button>
+                        </div>
+                    </div>
+                    <button class="add-box" id="add-box-btn">Add Box</button>
+                    <button class="calculate" id="calculate-total-btn">Calculate Total</button>
+                </div>
+            </div>
+
+            <div class="results-section">
+                <h2>Box Resources Value</h2>
+                <div class="results-wrapper">
+                    <div id="results-container">
+                        <p>Select box level and rarity to see resource values.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/boxes.js"></script>
+</body>
+</html>

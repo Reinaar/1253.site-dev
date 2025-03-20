@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://1253.site/">
+    <meta property="og:title" content="The hub for everything #1253">
+    <meta property="og:description" content="Hero EXP Calculator">
+    <meta property="og:image" content="https://1253.site/assets/icon.jpg">
+
+    <title>Heroes</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/heroes.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo"></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="buildings.html">Buildings</a></li>
+                <li><a href="heroes.html" class="active">Heroes</a></li>
+                <li><a href="drone.html">Drone</a></li>
+                <li><a href="boxes.html">RSS Boxes</a></li>
+                <li><a href="guides.html">Guides</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>Hero Experience Calculator</h1>
+            <p>Calculate experience requirements for hero level upgrades</p>
+        </header>
+
+        <div class="calculator" id="calculator-section">
+            <div class="input-section">
+                <h2>Single Hero Calculator</h2>
+                <div class="selection-row">
+                    <label for="hero-start-level">Current Level:</label>
+                    <input type="number" id="hero-start-level" min="1" max="149" value="1">
+                </div>
+                <div class="selection-row">
+                    <label for="hero-target-level">Target Level:</label>
+                    <input type="number" id="hero-target-level" min="2" max="150" value="10">
+                </div>
+                
+                <button class="calculate" id="calculate-hero-btn">Calculate XP Required</button>
+                
+                <div class="input-section hero-cart-container">
+                    <h2>Multiple Heroes Calculator</h2>
+                    <div id="hero-cart">
+                        <div class="hero-cart-row">
+                            <input type="number" class="hero-start-level" min="1" max="149" placeholder="Start Level" value="1">
+                            <input type="number" class="hero-target-level" min="2" max="150" placeholder="Target Level" value="10">
+                            <input type="text" class="hero-name-multiple" placeholder="Hero Name (optional)">
+                            <button class="remove">✕</button>
+                        </div>
+                    </div>
+                    <button class="add-hero" id="add-hero-btn">Add Hero</button>
+                    <button class="calculate" id="calculate-total-btn">Calculate Total XP</button>
+                </div>
+            </div>
+
+            <div class="results-section">
+                <h2>Experience Required</h2>
+                <div class="results-wrapper">
+                    <div id="results-container">
+                        <p>Enter hero levels to calculate experience requirements.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/heroes.js"></script>
+</body>
+</html>

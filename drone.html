@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://1253.site/">
+    <meta property="og:title" content="The hub for everything #1253">
+    <meta property="og:description" content="Drone Part calculator & info">
+    <meta property="og:image" content="https://1253.site/assets/icon.jpg">
+
+    <title>Drone</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/drone.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo"></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="buildings.html">Buildings</a></li>
+                <li><a href="heroes.html">Heroes</a></li>
+                <li><a href="drone.html" class="active">Drone</a></li>
+                <li><a href="boxes.html">RSS Boxes</a></li>
+                <li><a href="guides.html">Guides</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>Drone Parts</h1>
+            <p>Calculate required drone parts for different drone levels</p>
+        </header>
+
+        <div class="calculator" id="calculator-section">
+            <div class="input-section">
+                <h2>Drone Level Selection</h2>
+                <div class="selection-row">
+                    <label for="drone-level">Target Drone Level:</label>
+                    <input type="number" id="drone-level" min="5" max="250" step="5" value="5">
+                </div>
+                
+                <button class="calculate" id="calculate-btn">Calculate Required Parts</button>
+                
+                <div class="input-section range-container">
+                    <h2>Level Range Lookup</h2>
+                    <div class="switch-container">
+                        <label class="switch">
+                            <input type="checkbox" id="current-level-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                        <span>Calculate from my current level</span>
+                    </div>
+                    
+                    <div class="selection-row" id="current-level-row" style="display: none;">
+                        <label for="current-level">Current Level:</label>
+                        <input type="number" id="current-level" min="5" max="245" step="5" value="5">
+                    </div>
+                    
+                    <div class="selection-row">
+                        <label for="start-level">Start Level:</label>
+                        <input type="number" id="start-level" min="5" max="245" step="5" value="5">
+                    </div>
+                    <div class="selection-row">
+                        <label for="end-level">End Level:</label>
+                        <input type="number" id="end-level" min="10" max="250" step="5" value="50">
+                    </div>
+                    
+                    <button class="calculate" id="range-calculate-btn">Calculate Range</button>
+                </div>
+            </div>
+
+            <div class="results-section">
+                <h2>Drone Parts Required</h2>
+                <div class="results-wrapper">
+                    <div id="results-container">
+                        <p>Select a drone level to see required parts.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/drone.js"></script>
+</body>
+</html>

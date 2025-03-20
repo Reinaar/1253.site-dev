@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://1253.site/">
+    <meta property="og:title" content="The hub for everything #1253">
+    <meta property="og:description" content="The ultimate all-in-one multi-tool, interactive calculators and guides for hero formations, resources, buildings, and more!">
+    <meta property="og:image" content="https://1253.site/assets/icon.jpg">
+
+    <title>Buildings</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/buildings.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo"></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="buildings.html" class="active">Buildings</a></li>
+                <li><a href="heroes.html">Heroes</a></li>
+                <li><a href="drone.html">Drone</a></li>
+                <li><a href="boxes.html">RSS Boxes</a></li>
+                <li><a href="guides.html">Guides</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>Buildings Calculator</h1>
+            <p>Calculate resource requirements for building upgrades</p>
+            <strong>NOTE: THE DATA WAS COLLECTED BY VARIOUS PEOPLE WITH VARIOUS BUFFS; AS SUCH THIS WILL BE BUT A ROUGH ESTIMATE</strong>
+        </header>
+
+        <div class="calculator" id="calculator-section">
+            <div class="input-section">
+                <h2>Building Selection</h2>
+                <div id="buildings-container">
+                    <div class="building-row">
+                        <select class="building-select">
+                            <option value="">Select Building</option>
+                        </select>
+                        <input type="number" class="level-input" min="1" placeholder="Level" disabled>
+                        <button class="remove" disabled>✕</button>
+                    </div>
+                </div>
+                <button class="add-building" id="add-building-btn">Add Building</button>
+                
+                <div class="buff-container">
+                    <div class="buff-title">Construction Speed Buff</div>
+                    <div class="buff-input">
+                        <label for="speed-buff">Speed Buff %:</label>
+                        <input type="number" id="speed-buff" min="0" value="0" step="5">
+                    </div>
+                    <p><small>Examples: 100% for double speed, 150% for 2.5x speed</small></p>
+                </div>
+                
+                <button class="calculate" id="calculate-btn">Calculate Requirements</button>
+            </div>
+
+            <div class="results-section">
+                <h2>Resources Required</h2>
+                <div class="results-wrapper">
+                    <div id="results-container">
+                        <p>Select buildings and levels to calculate resource requirements.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>
