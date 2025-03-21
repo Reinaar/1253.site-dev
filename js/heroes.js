@@ -126,26 +126,26 @@ function calculateHeroExp() {
     const targetLevel = parseInt(heroTargetLevelInput.value);
     
     if (isNaN(startLevel) || isNaN(targetLevel)) {
-        alert('Please enter valid hero levels');
+        alert(t('heroes.errors.valid-levels'));
         return;
     };
     
     if (startLevel >= targetLevel) {
-        alert('Target level must be greater than start level');
+        alert(t('heroes.errors.target-greater'));
         return;
     };
     
     if (!heroExpData) {
-        alert('Hero experience data not loaded yet');
+        alert(t('heroes.errors.data-not-loaded'));
         return;
     };
     
     const expRequired = calculateExpBetweenLevels(startLevel, targetLevel);
     let html = `
         <div class="hero-result">
-            <div class="hero-name-multiple">Level ${startLevel} → ${targetLevel}</div>
+            <div class="hero-name-multiple">${t('heroes.results.level-range').replace('{{start}}', startLevel).replace('{{target}}', targetLevel)}</div>
             <div class="resource resource-exp">
-                <span>Experience Required:</span>
+                <span>${t('heroes.results.experience-required')}</span>
                 <span>${formatNumber(expRequired)}</span>
             </div>
         </div>
@@ -153,14 +153,14 @@ function calculateHeroExp() {
     
     html += `
         <div class="comparison">
-            <h3>Level Breakdown</h3>
+            <h3>${t('heroes.results.level-breakdown')}</h3>
             <div style="margin-right: 8px;">
                 <table class="comparison-table">
                     <thead>
                         <tr>
-                            <th style="width: 25%;">Level</th>
-                            <th style="width: 35%;">XP for Level</th>
-                            <th style="width: 40%;">Cumulative XP</th>
+                            <th style="width: 25%;">${t('heroes.results.level')}</th>
+                            <th style="width: 35%;">${t('heroes.results.xp-for-level')}</th>
+                            <th style="width: 40%;">${t('heroes.results.cumulative-xp')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -172,7 +172,7 @@ function calculateHeroExp() {
         cumulativeXP += levelXP;
         html += `
             <tr>
-                <td>${level - 1} → ${level}</td>
+                <td>${t('heroes.results.level-to-level').replace('{{prevLevel}}', level - 1).replace('{{nextLevel}}', level)}</td>
                 <td>${formatNumber(levelXP)}</td>
                 <td>${formatNumber(cumulativeXP)}</td>
             </tr>
@@ -206,9 +206,9 @@ function displayTotalHeroExp(heroRequests) {
     
     let html = `
         <div class="hero-result">
-            <div class="hero-name">Total Experience Required</div>
+            <div class="hero-name">${t('heroes.results.total-experience')}</div>
             <div class="resource resource-exp">
-                <span>Total XP:</span>
+                <span>${t('heroes.results.total-xp')}</span>
                 <span>${formatNumber(totalExp)}</span>
             </div>
         </div>
@@ -217,15 +217,15 @@ function displayTotalHeroExp(heroRequests) {
     if (heroResults.length > 0) {
         html += `
             <div class="comparison">
-                <div class="box-name">Hero Breakdown</div>
+                <div class="box-name">${t('heroes.results.hero-breakdown')}</div>
                 <div style="margin-right: 8px;">
                     <table class="comparison-table">
                         <thead>
                             <tr>
-                                <th style="width: 30%;">Hero</th>
-                                <th style="width: 20%;">Levels</th>
-                                <th style="width: 30%;">XP Required</th>
-                                <th style="width: 20%;">% of Total</th>
+                                <th style="width: 30%;">${t('heroes.results.hero')}</th>
+                                <th style="width: 20%;">${t('heroes.results.levels')}</th>
+                                <th style="width: 30%;">${t('heroes.results.xp-required')}</th>
+                                <th style="width: 20%;">${t('heroes.results.percent-of-total')}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -261,15 +261,16 @@ function displayTotalHeroExp(heroRequests) {
         
         html += `
             <div class="comparison">
-                <h3>XP Growth Chart</h3>
-                <p>This chart shows the XP requirements for each level upgrade with a relative scale</p>
+                <h3>${t('heroes.results.xp-growth-chart')}</h3>
+                <p>${t('heroes.results.xp-chart-description')}</p>
                 <div class="xp-chart" style="margin-right: 8px;">
                     <table class="comparison-table">
                         <thead>
                             <tr>
-                                <th style="width: 25%;">Level Range</th>
-                                <th style="width: 35%;">XP Required</th>
-                                <th style="width: 40%;">Visual Scale</th>
+                                <th style="width: 25%;">${t('heroes.results.level-range-header')}</th>
+                                <th style="width: 35%;">${t('heroes.results.xp-required-header')}</th>
+                                <th style="width: 40%;">${t('heroes.results.visual-scale')}</th>
+                            </tr>
                             </tr>
                         </thead>
                         <tbody>
@@ -329,13 +330,13 @@ function calculateTotalHeroExp() {
         const heroName = row.querySelector('.hero-name-multiple').value.trim() || `Hero ${heroRequests.length + 1}`;
         
         if (isNaN(startLevel) || isNaN(targetLevel)) {
-            alert('Please enter valid hero levels');
+            alert(t('heroes.errors.valid-levels'));
             validRequest = false;
             return;
         };
         
         if (startLevel >= targetLevel) {
-            alert(`Target level must be greater than start level for ${heroName}`);
+            alert(t('heroes.errors.target-greater-for').replace('{{heroName}}', heroName));
             validRequest = false;
             return;
         };
@@ -348,7 +349,7 @@ function calculateTotalHeroExp() {
     });
     
     if (heroRequests.length === 0) {
-        alert('Please add at least one hero');
+        alert(t('heroes.errors.add-one-hero'));
         return;
     };
     
@@ -375,10 +376,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (error) {
         resultsContainer.innerHTML = `
             <div class="hero-result">
-                <div class="hero-name">Error Loading Data</div>
-                <p>Could not load the data, please contact the site manager</p>
-                <p>Error: ${error.message}</p>
-                <p>Please ensure the file exists in the correct location.</p>
+                <div class="hero-name">${t('heroes.errors.loading-error')}</div>
+                <p>${t('heroes.errors.contact-site-manager')}</p>
+                <p>${t('heroes.errors.error-msg').replace('{{errorMessage}}', error.message)}</p>
+                <p>${t('heroes.errors.file-exists')}</p>
             </div>
         `;
     };

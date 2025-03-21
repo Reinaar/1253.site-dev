@@ -14,19 +14,52 @@
     <title>Drone</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/drone.css">
+    <link rel="stylesheet" href="css/language-selector.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo"></div>
             <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="buildings.html">Buildings</a></li>
-                <li><a href="heroes.html">Heroes</a></li>
-                <li><a href="drone.html" class="active">Drone</a></li>
-                <li><a href="boxes.html">RSS Boxes</a></li>
-                <li><a href="guides.html">Guides</a></li>
+                <li><a data-i18n="global.nav-home" href="index.html">Home</a></li>
+                <li><a data-i18n="global.nav-buildings" href="buildings.html">Buildings</a></li>
+                <li><a data-i18n="global.nav-heroes" href="heroes.html">Heroes</a></li>
+                <li><a data-i18n="global.nav-drone" href="drone.html" class="active">Drone</a></li>
+                <li><a data-i18n="global.nav-resource-boxes" href="boxes.html">RSS Boxes</a></li>
+                <li><a data-i18n="global.nav-guides" href="guides.html">Guides</a></li>
             </ul>
+
+            <div class="language-selector">
+                <div class="selected-language">
+                    <img src="assets/flags/us.svg" alt="English" class="flag-icon">
+                    <span>English</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dropdown-arrow">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <ul class="language-dropdown">
+                    <li data-lang="en">
+                        <img src="assets/flags/us.svg" alt="English" class="flag-icon">
+                        <span>English</span>
+                    </li>
+                    <li data-lang="es">
+                        <img src="assets/flags/es.svg" alt="Español" class="flag-icon">
+                        <span>Español</span>
+                    </li>
+                    <li data-lang="fr">
+                        <img src="assets/flags/fr.svg" alt="Français" class="flag-icon">
+                        <span>Français</span>
+                    </li>
+                    <li data-lang="de">
+                        <img src="assets/flags/de.svg" alt="Deutsch" class="flag-icon">
+                        <span>Deutsch</span>
+                    </li>
+                    <li data-lang="tr">
+                        <img src="assets/flags/tr.svg" alt="Türkçe" class="flag-icon">
+                        <span>Türkçe</span>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
@@ -85,5 +118,6 @@
         </div>
     </div>
     <script src="js/drone.js"></script>
+    <script src="js/language-selector.js"></script>
 </body>
 </html>
