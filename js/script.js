@@ -14,6 +14,15 @@ const Time = {
         return (days * 24 * 60 * 60) + (hours * 60 * 60) + (minutes * 60) + seconds;
     },
 
+    /**
+     * Converts seconds into a time string formatted as "d\d hh:mm:ss" as "LastWar" does.
+     * Examples:
+     *  - 4d 03:02:01
+     *  - 00:00:01
+     *
+     * @param {number} seconds - The number of seconds to format.
+     * @returns {string} - The formatted time string.
+     */
     format: function(totalSeconds) {
         if (totalSeconds === 0) return t('buildings.time.no-data');
 
@@ -24,13 +33,9 @@ const Time = {
         const minutes = Math.floor(totalSeconds / 60);
         const seconds = totalSeconds % 60;
 
-        let result = "";
-        if (days > 0) result += t('buildings.time.day').replace('{days}', days) + ", ";
-        if (hours > 0 || days > 0) result += t('buildings.time.hour').replace('{hours}', hours) + ", ";
-        if (minutes > 0 || hours > 0 || days > 0) result += t('buildings.time.minute').replace('{minutes}', minutes) + ", ";
-        result += t('buildings.time.second').replace('{seconds}', seconds);
+        const days_display = days > 0 ? `${days}d ` : "";
 
-        return result;
+        return days_display + `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
     },
 
     formatTimeString: function(totalSeconds) {
@@ -185,8 +190,12 @@ calculateButton.addEventListener('click', () => {
 
 function calculateRequirements(buildingRequests) {
     const userInputBuff = parseFloat(speedBuffInput.value) || 0;
-    const adjustedSpeedBuff = Math.max(0, userInputBuff - 70); // Data was collected with different buffs
-    const speedMultiplier = 1 + (adjustedSpeedBuff / 100);     // Therefore a median average will be 70%
+    // The normal buff was used with different buffs, using average of 70 as default
+    const adjustedSpeedBuff = Math.max(0, userInputBuff - 70);
+    const speedMultiplier = 1 + (adjustedSpeedBuff / 100);
+
+    const adjustedSpeedBuffOriginal = Math.max(0, userInputBuff);
+    const speedMultiplierOriginal = 1 + (adjustedSpeedBuffOriginal / 100);
 
     const totals = { Iron: 0, Food: 0, Coin: 0, Time: 0, BuffedTime: 0 };
 
@@ -195,9 +204,10 @@ function calculateRequirements(buildingRequests) {
         const level = request.level;
         const resources = buildingsData[buildingName][level];
 
-        const originalTimeInSeconds = Time.parseToSeconds(resources.Time);
+
+        const originalTimeInSeconds = Time.parseToSeconds(resources.OriginalTime ?? resources.Time);
         const buffedTimeInSeconds = originalTimeInSeconds > 0
-            ? Math.ceil(originalTimeInSeconds / speedMultiplier)
+            ? Math.ceil(originalTimeInSeconds / (resources.OriginalTime ? speedMultiplierOriginal : speedMultiplier))
             : 0;
 
         totals.Iron += resources.Iron;
@@ -214,12 +224,24 @@ function calculateRequirements(buildingRequests) {
         };
     });
 
-    displayResults({ totals, details, speedBuff: userInputBuff, adjustedSpeedBuff });
+    displayResults({ totals, details, speedBuff: userInputBuff, adjustedSpeedBuff, adjustedSpeedBuffOriginal });
 };
+
+/*
+ * Takes a number and will format it to percent. 1 means 100%
+ *
+ * @param {number} percentage - The percentage to be shown
+ * @param {number} decimals - How many decimals to show. Defaults to 1
+ * @returns {string} - The formatted percent string.
+ */
+function formatPercent(percentage, decimals = 1) {
+    return (percentage * 100).toFixed(decimals) + " %";
+}
 
 function displayResults(results) {
     const userSpeedBuff = results.speedBuff;
     const adjustedSpeedBuff = results.adjustedSpeedBuff;
+    const adjustedSpeedBuffOriginal = results.adjustedSpeedBuffOriginal;
     let html = '';
 
     if (userSpeedBuff > 0) {
@@ -227,11 +249,14 @@ function displayResults(results) {
             <div class="building-result">
                 <div class="building-name">${t('buildings.results.applied-speed-buff').replace('{buff}', userSpeedBuff)}</div>
                 <p>${t('buildings.results.construction-times-reduced').replace('{factor}', (1 + (adjustedSpeedBuff / 100)).toFixed(2))}</p>
+                <p>${t('buildings.results.construction-original-times-reduced').replace('{factor}', (1 + (adjustedSpeedBuffOriginal / 100)).toFixed(2))}</p>
             </div>
         `;
     };
 
     results.details.forEach((detail) => {
+        const time = detail.resources.OriginalTime ?? detail.resources.Time;
+        const isOriginal = detail.resources.OriginalTime !== undefined
         html += `
             <div class="building-result">
                 <div class="building-name">${detail.building} ${t('buildings.results.level')} ${detail.level}</div>
@@ -248,15 +273,15 @@ function displayResults(results) {
                     <span>${formatNumber(detail.resources.Coin)}</span>
                 </div>
                 <div class="resource resource-time">
-                    <span>${t('buildings.resources.base-time')}:</span>
-                    <span>${detail.resources.Time} (${Time.format(Time.parseToSeconds(detail.resources.Time))})</span>
+                    <span>${t(isOriginal ? 'buildings.resources.original-base-time' : 'buildings.resources.base-time')}:</span>
+                    <span>${Time.format(Time.parseToSeconds(time))}</span>
                 </div>`;
 
-        if (adjustedSpeedBuff > 0) {
+        if (adjustedSpeedBuff > 0 && time !== "00:00:00:00") {
             html += `
                 <div class="resource resource-time-buffed">
                     <span>${t('buildings.resources.buffed-time')}:</span>
-                    <span>${Time.formatTimeString(detail.buffedTime)} (${Time.format(detail.buffedTime)})</span>
+                    <span>${Time.format(detail.buffedTime)} (-${formatPercent(1 - detail.buffedTime / Time.parseToSeconds(time))})</span>
                 </div>`;
         };
 
@@ -291,7 +316,7 @@ function displayResults(results) {
             </div>
             <div class="resource resource-time-buffed">
                 <span>${t('buildings.results.time-saved')}:</span>
-                <span>${Time.format(results.totals.Time - results.totals.BuffedTime)}</span>
+                <span>${Time.format(results.totals.Time - results.totals.BuffedTime)} (${formatPercent(1 - results.totals.BuffedTime / results.totals.Time)})</span>
             </div>`;
     };
 
